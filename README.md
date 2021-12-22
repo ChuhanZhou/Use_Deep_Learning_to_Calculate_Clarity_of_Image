@@ -4,6 +4,8 @@ The net of model is U-net.
 
 Training data set is non-public.
 
+Test card is ISO_12233.
+
 Train:
 
 1. Put training data into ./train/
