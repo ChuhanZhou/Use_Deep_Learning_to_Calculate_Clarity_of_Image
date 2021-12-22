@@ -1,0 +1,5 @@
+test/p20p.jpg
+test/mate40p_jpg.jpg
+test/mate40p_jpgl_a.jpg
+test/mate40p_jpgl_b.jpg
+test/ISO_12233-reschart-1.png
