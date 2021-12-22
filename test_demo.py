@@ -23,8 +23,15 @@ if __name__ == "__main__":
 
         sp = test_img.shape
 
+        resize_max = -1
+
         if sp[0] > 1024 and sp[1] > 1024:
-            max_pect = 1024 / max(sp[0], sp[1])
+            resize_max = 1024
+        elif sp[0]%16!=0 or sp[1]%16!=0:
+            resize_max = int(max(sp[0], sp[1])/16)*16
+
+        if resize_max!= -1:
+            max_pect = resize_max / max(sp[0], sp[1])
             min_pect = int(min(sp[0], sp[1]) * max_pect / 16) * 16 / min(sp[0], sp[1])
             if sp[0] > sp[1]:
                 test_size = (int(min_pect * sp[1]), int(max_pect * sp[0]))
