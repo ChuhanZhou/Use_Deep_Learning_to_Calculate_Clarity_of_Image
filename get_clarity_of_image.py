@@ -51,7 +51,6 @@ def get_trans_list(fourPointListPath):
             transList.append([path, ltPoint, rtPoint, lbPoint, rbPoint])
     return transList
 
-
 def four_point_transform(image, ltPoint, rtPoint, lbPoint, rbPoint, pointWidth, pointHeight):
     rect = np.array([ltPoint, rtPoint, rbPoint, lbPoint], dtype="float32")
 
@@ -111,11 +110,6 @@ def mse(image1, image2):
     mse = compare_mse(image1, image2)
     return mse
 
-def inter_error(image1, image2):
-    diff_rgb = 128.0 + image2 - image1;
-    ie = np.mean(np.mean(np.mean(abs(diff_rgb - 128.0))));
-    return ie
-
 def get_check_part(image):
     sp = image.shape
     height = sp[0]
@@ -155,60 +149,10 @@ def variance_of_laplacian(image):
 	# measure, which is simply the variance of the Laplacian
     return cv2.Laplacian(image, cv2.CV_64F).var()
 
-def variance(image):
-    image = gray(image)
-    global img
-    if image.ndim == 3:
-        img = image[:, :, 0]
-    out = 0
-    u = np.mean(img)
-    shape = np.shape(img)
-    for x in range(0,shape[0]):
-        for y in range(0,shape[1]):
-            out+=(img[x,y]-u)**2
-    return out
-
-def vollath(image):
-    image = gray(image)
-    global img
-    if image.ndim == 3:
-        img = image[:, :, 0]
-    shape = np.shape(img)
-    u = np.mean(img)
-    out = -shape[0]*shape[1]*(u**2)
-    for x in range(0, shape[0]-1):
-        for y in range(0, shape[1]):
-            out+=int(img[x,y])*int(img[x+1,y])
-    return out
-
-def SMD2(image):
-    image = gray(image)
-    global img
-    if image.ndim == 3:
-        img = image[:, :, 0]
-    shape = np.shape(img)
-    out = 0
-    for x in range(0, shape[0]-1):
-        for y in range(0, shape[1]-1):
-            out+=math.fabs(int(img[x,y])-int(img[x+1,y]))*math.fabs(int(img[x,y]-int(img[x,y+1])))
-    return out
-
 def gray(image):
     grayImage = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     grayImage = cv2.cvtColor(grayImage, cv2.COLOR_GRAY2BGR)
     return grayImage
-
-def binary(image):
-    ret, thresh1 = cv2.threshold(cv2.cvtColor(image, cv2.COLOR_BGR2GRAY), 127, 255, cv2.THRESH_BINARY)
-    thresh1 = cv2.cvtColor(thresh1, cv2.COLOR_GRAY2BGR)
-    return thresh1
-
-def compute(img, min_percentile, max_percentile):
-    """计算分位点，目的是去掉图1的直方图两头的异常情况"""
-    max_percentile_pixel = np.percentile(img, max_percentile)
-    min_percentile_pixel = np.percentile(img, min_percentile)
-
-    return max_percentile_pixel, min_percentile_pixel
 
 def run(fourPointListPath, outputPackagePath,originalName="ISO_12233-reschart-1.png",need_flip=True):
     transList = get_trans_list(fourPointListPath)
